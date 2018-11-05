@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+
+ # no portbinding here - the actual services should be scalable
+ weatherbackend:
+  build: ./weatherbackend
+  ports:
+   - "8090"
+  tty:
+    true
+  restart:
+    unless-stopped
+
+ weatherservice:
+  build: ./weatherservice
+  ports:
+   - "8095:8095"
+  tty:
+    true
+  restart:
+    unless-stopped
