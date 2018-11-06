@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_SIMPLE;
+
 /*
  * Access this REST API with
- * curl -v localhost:8090/healthcheck
+ * curl -v localhost:8095/healthcheck
  */
 @RestController("/healtcheck")
-public class WeatherBackendHealthcheck {
+public class WeatherServiceHealthcheck {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WeatherBackendHealthcheck.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WeatherServiceHealthcheck.class);
 
     @Autowired
     private MessageSender messageSender;

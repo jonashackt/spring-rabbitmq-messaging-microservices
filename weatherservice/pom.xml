@@ -15,7 +15,6 @@
     <properties>
         <rest-assured.version>3.2.0</rest-assured.version>
         <springfox.version>2.9.2</springfox.version>
-        <commons-io.version>2.6</commons-io.version>
     </properties>
 
     <dependencies>
@@ -53,11 +52,23 @@
         <!-- Library project for Model and Event classes -->
         <dependency>
             <groupId>de.jonashackt</groupId>
-            <artifactId>weathermodel</artifactId>
+            <artifactId>weathershare</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!-- Testing -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.stefanbirkner</groupId>
+            <artifactId>system-rules</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

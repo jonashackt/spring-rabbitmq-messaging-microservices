@@ -10,3 +10,11 @@ services:
   tty:
     true
 
+ weatherbackend:
+   build: ./weatherbackend
+   ports:
+   - "8090"
+   tty:
+     true
+   restart:
+     unless-stopped

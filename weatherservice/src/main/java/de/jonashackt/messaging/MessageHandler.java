@@ -16,6 +16,6 @@ public class MessageHandler {
 
     @RabbitListener(queues=QUEUE_WEATHER_SERVICE)
     public void handleMessage(@Payload EventGeneralOutlook event) throws JsonProcessingException {
-        LOG.info("EventGeneralOutlook received.");
+        LOG.info("EventGeneralOutlook received in weatherservice.");
     }
 }

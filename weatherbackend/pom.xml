@@ -13,16 +13,16 @@
 		<relativePath>../</relativePath>
 	</parent>
 
-	<properties>
-		<testcontainers.version>1.9.1</testcontainers.version>
-		<system-rules.version>1.18.0</system-rules.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<!-- Ease development - e.g. with autorestart, see https://spring.io/blog/2015/06/17/devtools-in-spring-boot-1-3 -->
@@ -35,7 +35,7 @@
 		<!-- Library project for Model and Event classes -->
 		<dependency>
 			<groupId>de.jonashackt</groupId>
-			<artifactId>weathermodel</artifactId>
+			<artifactId>weathershare</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
@@ -43,14 +43,12 @@
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>testcontainers</artifactId>
-			<version>${testcontainers.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.stefanbirkner</groupId>
 			<artifactId>system-rules</artifactId>
-			<version>${system-rules.version}</version>
 			<scope>test</scope>
 		</dependency>
 
