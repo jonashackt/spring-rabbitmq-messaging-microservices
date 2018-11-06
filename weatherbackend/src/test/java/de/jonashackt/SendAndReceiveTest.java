@@ -52,10 +52,7 @@ public class SendAndReceiveTest {
         messageSender.sendMessage(QUEUE_WEATHER_SIMPLE, eventSimple);
 
         // Then
-        System.out.println("The log after sending is: \n" + systemOutRule.getLog());
-
         Thread.sleep(2000);
-        System.out.println("The log after waiting 2sec is: \n" + systemOutRule.getLog());
 
         assertThat(systemOutRule.getLog(), containsString("EventSimple received"));
     }
@@ -66,13 +63,8 @@ public class SendAndReceiveTest {
         // When
         messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
 
-        Thread.sleep(1000);
-
         // Then
-        System.out.println("The log after sending is: \n" + systemOutRule.getLog());
-
         Thread.sleep(2000);
-        System.out.println("The log after waiting 2sec is: \n" + systemOutRule.getLog());
 
         assertThat(systemOutRule.getLog(), containsString("EventGetOutlook received"));
     }
@@ -83,13 +75,8 @@ public class SendAndReceiveTest {
         // When
         messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
 
-        Thread.sleep(1000);
-
         // Then
-        System.out.println("The log after sending is: \n" + systemOutRule.getLog());
-
         Thread.sleep(2000);
-        System.out.println("The log after waiting 2sec is: \n" + systemOutRule.getLog());
 
         assertThat(systemOutRule.getLog(), containsString("EventGeneralOutlook received."));
     }
