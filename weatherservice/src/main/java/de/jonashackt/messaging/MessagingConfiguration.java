@@ -20,9 +20,7 @@ import org.springframework.messaging.handler.annotation.support.DefaultMessageHa
 import java.util.Arrays;
 import java.util.List;
 
-import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_BACKEND;
-import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_SERVICE;
-import static de.jonashackt.messaging.Queues.TOPIC_WEATHER;
+import static de.jonashackt.messaging.Queues.*;
 
 
 @Configuration
@@ -35,6 +33,11 @@ public class MessagingConfiguration implements RabbitListenerConfigurer {
     @Bean
     public FanoutExchange exchange() {
         return new FanoutExchange(TOPIC_WEATHER);
+    }
+
+    @Bean
+    public Queue queueWeatherSimple() {
+        return new Queue(QUEUE_WEATHER_SIMPLE, false);
     }
 
     @Bean

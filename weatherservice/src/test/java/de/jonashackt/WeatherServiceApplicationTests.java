@@ -25,19 +25,17 @@ public class WeatherServiceApplicationTests {
     public void testWithRestAssured() {
 
 		// Given
-        Weather weather = Weather.newBuilder()
-                .withFlagColor("blue")
-                .withPostalCode("99425")
-                .usingProduct(Product.ForecastBasic)
-                .withUser(new User(27, 4300, MethodOfPayment.Bitcoin))
-                .build();
+        Weather weather = new Weather();
+        weather.setFlagColor("blue");
+        weather.setPostalCode("99425");
+        weather.setProduct(Product.ForecastBasic);
+        weather.setUser(new User(27, 4300, MethodOfPayment.Bitcoin));
 
-        GeneralOutlook expectedOutlookfromIncredibleBackendLogic = GeneralOutlook.newBuilder()
-                .inCity("Weimar")
-                .withDate(Date.from(Instant.now()))
-                .inState("Germany")
-                .withWeatherStation("BestStationInTown")
-                .build();
+        GeneralOutlook expectedOutlookfromIncredibleBackendLogic = new GeneralOutlook();
+        expectedOutlookfromIncredibleBackendLogic.setCity("Weimar");
+        expectedOutlookfromIncredibleBackendLogic.setDate(Date.from(Instant.now()));
+        expectedOutlookfromIncredibleBackendLogic.setState("Germany");
+        expectedOutlookfromIncredibleBackendLogic.setWeatherStation("BestStationInTown");
 
         // When
         given() // can be ommited when GET only

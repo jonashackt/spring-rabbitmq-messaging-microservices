@@ -1,7 +1,7 @@
 package de.jonashackt.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import de.jonashackt.controller.WeatherBackendController;
+import de.jonashackt.service.WeatherBackendService;
 import de.jonashackt.model.GeneralOutlook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_BACKEND;
 import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_SERVICE;
+import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_SIMPLE;
 
 @Component
 public class MessageHandler {
@@ -19,7 +20,7 @@ public class MessageHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MessageHandler.class);
 
     @Autowired
-    private WeatherBackendController weatherBackendController;
+    private WeatherBackendService weatherBackendService;
 
     @Autowired
     private MessageSender messageSender;
@@ -28,8 +29,16 @@ public class MessageHandler {
     public void handleMessage(@Payload EventGetOutlook event) throws JsonProcessingException {
         LOG.info("EventGetOutlook received");
 
-        GeneralOutlook generalOutlook = weatherBackendController.generateGeneralOutlook(event.getWeather());
+        GeneralOutlook generalOutlook = weatherBackendService.generateGeneralOutlook(event.getWeather());
 
-        messageSender.sendMessage(QUEUE_WEATHER_SERVICE, generalOutlook);
+        EventGeneralOutlook eventGeneralOutlook = new EventGeneralOutlook();
+        eventGeneralOutlook.setGeneralOutlook(generalOutlook);
+
+        messageSender.sendMessage(QUEUE_WEATHER_SERVICE, eventGeneralOutlook);
+    }
+
+    @RabbitListener(queues = QUEUE_WEATHER_SIMPLE)
+    public void handleSimpleMessage(@Payload EventSimple event) {
+        System.out.println("EventSimple received");
     }
 }

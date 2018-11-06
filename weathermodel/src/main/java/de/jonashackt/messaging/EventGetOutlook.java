@@ -8,10 +8,6 @@ public class EventGetOutlook {
 
     private Weather weather;
 
-    public EventGetOutlook(Weather weather) {
-        this.weather = weather;
-    }
-
     public Weather getWeather() {
         return weather;
     }

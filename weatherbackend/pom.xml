@@ -13,6 +13,11 @@
 		<relativePath>../</relativePath>
 	</parent>
 
+	<properties>
+		<testcontainers.version>1.9.1</testcontainers.version>
+		<system-rules.version>1.18.0</system-rules.version>
+	</properties>
+
 	<dependencies>
 
 		<dependency>
@@ -35,6 +40,20 @@
 		</dependency>
 
 		<!-- Testing -->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>${testcontainers.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.stefanbirkner</groupId>
+			<artifactId>system-rules</artifactId>
+			<version>${system-rules.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

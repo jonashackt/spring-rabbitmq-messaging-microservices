@@ -25,6 +25,10 @@ public class WeatherServiceEndpoint {
     public void forecast(@RequestBody Weather weather) throws JsonProcessingException {
 
         LOG.info("WeatherService invoked for new forecast");
-        messageSender.sendMessage(QUEUE_WEATHER_BACKEND, new EventGetOutlook(weather));
+
+        EventGetOutlook eventGetOutlook = new EventGetOutlook();
+        eventGetOutlook.setWeather(weather);
+
+        messageSender.sendMessage(QUEUE_WEATHER_BACKEND, eventGetOutlook);
     }
 }

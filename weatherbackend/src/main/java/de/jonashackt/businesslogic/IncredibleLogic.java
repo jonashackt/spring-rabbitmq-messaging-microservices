@@ -14,12 +14,11 @@ public class IncredibleLogic {
             e.printStackTrace();
         }
 
-        return GeneralOutlook
-                .newBuilder()
-                .inCity("Weimar")
-                .withDate(Date.from(Instant.now()))
-                .inState("Germany")
-                .withWeatherStation("BestStationInTown")
-                .build();
+        GeneralOutlook generalOutlook = new GeneralOutlook();
+        generalOutlook.setCity("Weimar");
+        generalOutlook.setDate(Date.from(Instant.now()));
+        generalOutlook.setState("Germany");
+        generalOutlook.setWeatherStation("BestStationInTown");
+        return generalOutlook;
     }
 }

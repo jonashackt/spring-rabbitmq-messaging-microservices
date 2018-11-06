@@ -8,10 +8,6 @@ public class EventGeneralOutlook {
 
     private GeneralOutlook generalOutlook;
 
-    public EventGeneralOutlook(GeneralOutlook generalOutlook) {
-        this.generalOutlook = generalOutlook;
-    }
-
     public void setGeneralOutlook(GeneralOutlook generalOutlook) {
         this.generalOutlook = generalOutlook;
     }

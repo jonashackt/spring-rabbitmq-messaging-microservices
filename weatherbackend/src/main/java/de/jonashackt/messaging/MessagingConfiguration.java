@@ -35,6 +35,11 @@ public class MessagingConfiguration implements RabbitListenerConfigurer {
     }
 
     @Bean
+    public Queue queueWeatherSimple() {
+        return new Queue(QUEUE_WEATHER_SIMPLE, false);
+    }
+
+    @Bean
     public Queue queueWeatherBackend() {
         return new Queue(QUEUE_WEATHER_BACKEND, false);
     }
