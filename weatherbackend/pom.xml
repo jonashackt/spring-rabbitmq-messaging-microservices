@@ -13,29 +13,11 @@
 		<relativePath>../</relativePath>
 	</parent>
 
-	<properties>
-		<rest-assured.version>3.2.0</rest-assured.version>
-		<springfox.version>2.9.2</springfox.version>
-		<commons-io.version>2.6</commons-io.version>
-		<pdfbox.version>2.0.12</pdfbox.version>
-	</properties>
-
 	<dependencies>
-		<!-- REST services -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons-io.version}</version>
 		</dependency>
 
 		<!-- Ease development - e.g. with autorestart, see https://spring.io/blog/2015/06/17/devtools-in-spring-boot-1-3 -->
@@ -45,37 +27,17 @@
 			<scope>optional</scope>
 		</dependency>
 
-		<!-- Swaggerfox REST Live Docu -->
+		<!-- Library project for Model and Event classes -->
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${springfox.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${springfox.version}</version>
+			<groupId>de.jonashackt</groupId>
+			<artifactId>weathermodel</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Testing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<version>${rest-assured.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.pdfbox</groupId>
-			<artifactId>pdfbox</artifactId>
-			<version>${pdfbox.version}</version>
 			<scope>test</scope>
 		</dependency>
 

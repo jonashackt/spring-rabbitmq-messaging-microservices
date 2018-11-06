@@ -5,23 +5,3 @@ spring:
 
 server:
   port: 8090
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${registry.host:localhost}:${registry.port:8761}/eureka/
-    healthcheck:
-      enabled: true
-
-# Spring Boot Admin show something :)
-management:
-  security:
-    enabled: false
-
-# No ugly logging pollution, if Eureka isn´t up or found
-logging:
-  level:
-    com:
-      netflix:
-        eureka: OFF
-        discovery: OFF

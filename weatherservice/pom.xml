@@ -13,20 +13,48 @@
     </parent>
 
     <properties>
-        <cxf-spring-boot-starter.version>2.0.0.RELEASE</cxf-spring-boot-starter.version>
+        <rest-assured.version>3.2.0</rest-assured.version>
+        <springfox.version>2.9.2</springfox.version>
+        <commons-io.version>2.6</commons-io.version>
     </properties>
 
     <dependencies>
-        <!-- Our weatherservice uses the https://github.com/codecentric/cxf-spring-boot-starter -->
+        <!-- REST services -->
         <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>cxf-spring-boot-starter</artifactId>
-            <version>${cxf-spring-boot-starter.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <!-- Ease development - e.g. with autorestart, see https://spring.io/blog/2015/06/17/devtools-in-spring-boot-1-3 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>optional</scope>
+        </dependency>
+
+        <!-- Swaggerfox REST Live Docu -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+
+        <!-- Library project for Model and Event classes -->
+        <dependency>
+            <groupId>de.jonashackt</groupId>
+            <artifactId>weathermodel</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!-- Testing -->
@@ -35,6 +63,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -42,18 +78,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>de.codecentric</groupId>
-                <artifactId>cxf-spring-boot-starter-maven-plugin</artifactId>
-                <version>2.0.0.RELEASE</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

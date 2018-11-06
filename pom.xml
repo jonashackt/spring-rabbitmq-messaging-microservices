@@ -25,9 +25,9 @@
 	</properties>
 
 	<modules>
+		<module>weathermodel</module>
 		<module>weatherbackend</module>
 		<module>weatherservice</module>
-		<module>weatherclient</module>
 	</modules>
 
 	<dependencies>
