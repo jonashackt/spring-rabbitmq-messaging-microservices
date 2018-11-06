@@ -35,7 +35,8 @@ public class WeatherServiceApplicationTests {
     public static DockerComposeContainer services =
             new DockerComposeContainer(new File("../docker-compose.yml"))
                     .withExposedService("rabbitmq", 5672, Wait.forListeningPort())
-                    .withExposedService("weatherbackend", 8090, Wait.forListeningPort());
+                    .withExposedService("weatherbackend", 8090, Wait.forListeningPort())
+                    .withTailChildContainers(true); // activate logging of weatherbackend to be available, see https://github.com/testcontainers/testcontainers-java/issues/352#issuecomment-310653094
 
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
@@ -51,7 +52,7 @@ public class WeatherServiceApplicationTests {
         messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
 
         // Then
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         assertThat(systemOutRule.getLog(), containsString("EventGeneralOutlook received in weatherservice."));
     }

@@ -28,11 +28,7 @@ public class MessageSender {
     }
 
     public void sendMessage(String queueName, Object event) throws JsonProcessingException {
-        LOG.info("Sending event message to Queue '" + queueName + "' with Json: " + event2PrettyJsonString(event));
+        LOG.info("Sending event message to Queue '" + queueName + "' with Json: " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(event));
         rabbitTemplate.convertAndSend(queueName, event);
-    }
-
-    private String event2PrettyJsonString(Object event) throws JsonProcessingException {
-        return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(event);
     }
 }

@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static de.jonashackt.common.ModelUtil.exampleEventGetOutlook;
+import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_BACKEND;
 import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_SIMPLE;
 
 /*
  * Access this REST API with
  * curl -v localhost:8095/healthcheck
+ * curl -v localhost:8095/event
  */
 @RestController("/healtcheck")
 public class WeatherServiceHealthcheck {
@@ -31,5 +34,12 @@ public class WeatherServiceHealthcheck {
         eventSimple.setName("foo");
 
         messageSender.sendMessage(QUEUE_WEATHER_SIMPLE, eventSimple);
+    }
+
+    @GetMapping("/event")
+    public void sendEvent() throws JsonProcessingException {
+        LOG.info("sendEvent() called, sending Message to 'weatherservice:queue'");
+
+        messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
     }
 }
