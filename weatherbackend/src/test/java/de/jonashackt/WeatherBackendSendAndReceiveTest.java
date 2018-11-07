@@ -59,10 +59,8 @@ public class WeatherBackendSendAndReceiveTest {
         EventSimple eventSimple = new EventSimple();
         eventSimple.setName("foo");
 
-        // When
         messageSender.sendMessage(QUEUE_WEATHER_SIMPLE, eventSimple);
 
-        // Then
         Thread.sleep(2000);
 
         assertThat(systemOutRule.getLog(), containsString("EventSimple received"));
@@ -71,10 +69,8 @@ public class WeatherBackendSendAndReceiveTest {
     @Test
     public void is_EventGetOutlook_send_and_received_by_MessageHandler() throws JsonProcessingException, InterruptedException {
 
-        // When
         messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
 
-        // Then
         Thread.sleep(2000);
 
         assertThat(systemOutRule.getLog(), containsString("EventGetOutlook received"));
@@ -83,10 +79,8 @@ public class WeatherBackendSendAndReceiveTest {
     @Test
     public void is_EventGetOutlook_send_and_EventGeneralOutlook_received() throws JsonProcessingException, InterruptedException {
 
-        // When
         messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
 
-        // Then
         Thread.sleep(4000);
 
         assertThat(systemOutRule.getLog(), containsString("EventGeneralOutlook received."));

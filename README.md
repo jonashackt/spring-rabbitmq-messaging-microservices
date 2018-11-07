@@ -8,24 +8,9 @@ Example project showing how to build a scalable microservice architecture using 
 
 We´re using [RabbitMQ Docker image](https://hub.docker.com/_/rabbitmq/) here. So if you fire it up with `docker-compose up -d`, you can easily login to the management gui at http://localhost:15672 using `guest` & `guest` as credentials.
 
-### Build sequence matters
-
-At the weatherservice we´re also using [testcontainers](https://www.testcontainers.org/) to fully instanciate every microservice needed to test the whole interaction with RabbitMQ.
-
-Therefore the sequence of module build inside our [pom.xml](pom.xml) here is crucial:
-
-```
-	<modules>
-		<module>weathermodel</module>
-		<module>weatherbackend</module>
-		<module>weatherservice</module>
-	</modules>
-```
-First the shared domain & event classes are packaged into a .jar file, so that every service is able to use it.
-
-Then the weatherbackend is build and tested - which does everything in the context of one microservice.
-
 ### Testcontainers only inside weatherbackend
+
+![spring-rabbitmq-messaging-diagram](https://yuml.me/diagram/scruffy/class/[weatherbackend]-&gt;[RabbitMQ],[weatherbackend]^-.-[RabbitMQ])
 
 Although we could also use [docker-compose.yml](docker-compose.yml) right here in the weatherbackend test classes, this could lead to errors - because testcontaiers would also try to spin up a `weatherbackend` Docker container, which we don´t have at build time of the weatherbackend itself (cause the Spring Boot jar isn´t ready right then).
 
@@ -78,6 +63,21 @@ But since we need to configure the RabbitMQ host url and port in the early stage
 
 ### Testcontainers, the 'real' docker-compose.yml and the weatherservice
 
+At the weatherservice we´re also using [testcontainers](https://www.testcontainers.org/) to fully instanciate every microservice needed to test the whole interaction with RabbitMQ.
+
+Therefore the sequence of module build inside our [pom.xml](pom.xml) here is crucial:
+
+```
+	<modules>
+		<module>weathermodel</module>
+		<module>weatherbackend</module>
+		<module>weatherservice</module>
+	</modules>
+```
+First the shared domain & event classes are packaged into a .jar file, so that every service is able to use it.
+
+Then the weatherbackend is build and tested - which does everything in the context of one microservice.
+
 The final `weatherservice` build then uses the successful build output of the `weatherbackend` inside the corresponding [Dockerfile](weatherbackend/Dockerfile):
 
 ```
@@ -97,19 +97,76 @@ services:
  rabbitmq:
   image: rabbitmq:management
   ports:
-  - "5672:5672"
-  - "15672:15672"
+    - "5672:5672"
+    - "15672:15672"
   tty:
     true
 
  weatherbackend:
-   build: ./weatherbackend
-   ports:
-   - "8090"
-   tty:
-     true
-   restart:
-     unless-stopped
+  build: ./weatherbackend
+  ports:
+    - "8090"
+  environment:
+    - "SPRING.RABBITMQ.HOST=rabbitmq"
+  tty:
+    true
+  restart:
+    unless-stopped
+```
+
+Note the definition of the environment variable `spring.rabbitmq.host`, since the RabbitMQ containers´ host inside the weatherbackend´s Docker Container isn´t `localhost` but instead Docker DNS style `rabbitmq`!
+
+The Test class [WeatherServiceSendAndReceiveTest](weatherservice/src/test/java/de/jonashackt/WeatherServiceSendAndReceiveTest.java) uses `org.testcontainers.containers.DockerComposeContainer` to leverage to `real` docker-compose.yml:
+
+```
+package de.jonashackt;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import de.jonashackt.messaging.MessageSender;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.DockerComposeContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+
+import java.io.File;
+
+import static de.jonashackt.common.ModelUtil.exampleEventGetOutlook;
+import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_BACKEND;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = WeatherServiceApplication.class)
+public class WeatherServiceSendAndReceiveTest {
+
+    @ClassRule
+    public static DockerComposeContainer services =
+            new DockerComposeContainer(new File("../docker-compose.yml"))
+                    .withExposedService("rabbitmq", 5672, Wait.forListeningPort())
+                    .withExposedService("weatherbackend", 8090, Wait.forListeningPort());
+
+    @Rule
+    public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+
+    @Autowired
+    private MessageSender messageSender;
+
+    @Test
+    public void is_EventGetOutlook_send_and_EventGeneralOutlook_received() throws JsonProcessingException, InterruptedException {
+
+        messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
+
+        Thread.sleep(5000); // We have to wait a bit here, since our Backend needs 3+ seconds to calculate the outlook
+
+        assertThat(systemOutRule.getLog(), containsString("EventGeneralOutlook received in weatherservice."));
+    }
+}
 ```
 
 ### Architects heaven: GitHub + Diagram + Markdown-Code

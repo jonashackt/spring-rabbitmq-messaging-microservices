@@ -2,11 +2,7 @@ package de.jonashackt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import de.jonashackt.messaging.MessageSender;
-import de.jonashackt.model.*;
-import io.restassured.http.ContentType;
-import org.apache.http.HttpStatus;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -18,12 +14,9 @@ import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
 import java.io.File;
-import java.time.Instant;
-import java.util.Date;
 
 import static de.jonashackt.common.ModelUtil.exampleEventGetOutlook;
 import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_BACKEND;
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertThat;
 
@@ -46,42 +39,10 @@ public class WeatherServiceSendAndReceiveTest {
     @Test
     public void is_EventGetOutlook_send_and_EventGeneralOutlook_received() throws JsonProcessingException, InterruptedException {
 
-        // When
         messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
 
-        // Then
-        Thread.sleep(5000);
+        Thread.sleep(5000); // We have to wait a bit here, since our Backend needs 3+ seconds to calculate the outlook
 
         assertThat(systemOutRule.getLog(), containsString("EventGeneralOutlook received in weatherservice."));
-    }
-
-	@Ignore
-    @Test
-    public void testWithRestAssured() {
-
-		// Given
-        Weather weather = new Weather();
-        weather.setFlagColor("blue");
-        weather.setPostalCode("99425");
-        weather.setProduct(Product.ForecastBasic);
-        weather.setUser(new User(27, 4300, MethodOfPayment.Bitcoin));
-
-        GeneralOutlook expectedOutlookfromIncredibleBackendLogic = new GeneralOutlook();
-        expectedOutlookfromIncredibleBackendLogic.setCity("Weimar");
-        expectedOutlookfromIncredibleBackendLogic.setDate(Date.from(Instant.now()));
-        expectedOutlookfromIncredibleBackendLogic.setState("Germany");
-        expectedOutlookfromIncredibleBackendLogic.setWeatherStation("BestStationInTown");
-
-        // When
-        given() // can be ommited when GET only
-	        .contentType(ContentType.JSON)
-            .body(weather)
-        .when() // can be ommited when GET only
-            .post("http://localhost:8080/weather/general/outlook")
-        .then()
-            .statusCode(HttpStatus.SC_OK)
-            .contentType(ContentType.JSON)
-            .assertThat()
-                .equals(expectedOutlookfromIncredibleBackendLogic);
     }
 }
