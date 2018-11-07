@@ -12,7 +12,7 @@ We´re using [RabbitMQ Docker image](https://hub.docker.com/_/rabbitmq/) here. S
 
 ![spring-rabbitmq-messaging-diagram](https://yuml.me/diagram/scruffy/class/[weatherbackend]-&gt;[RabbitMQ],[weatherbackend]^-.-[RabbitMQ])
 
-Although we could also use [docker-compose.yml](docker-compose.yml) right here in the weatherbackend test classes, this could lead to errors - because testcontaiers would also try to spin up a `weatherbackend` Docker container, which we don´t have at build time of the weatherbackend itself (cause the Spring Boot jar isn´t ready right then).
+Although we could also use [docker-compose.yml](docker-compose.yml) right here in the weatherbackend test classes, this could lead to errors - because [testcontainers](https://www.testcontainers.org/) would also try to spin up a `weatherbackend` Docker container, which we don´t have at build time of the weatherbackend itself (cause the Spring Boot jar isn´t ready right then).
 
 But there´s something like the `org.testcontainers.containers.GenericContainer` we can use to spin up a RabbitMQ without a docker-compose.yml. Just have a look into the test class [SendAndReceiveTest](weatherbackend/src/test/java/de/jonashackt/SendAndReceiveTest.java):
 
@@ -63,7 +63,9 @@ But since we need to configure the RabbitMQ host url and port in the early stage
 
 ### Testcontainers, the 'real' docker-compose.yml and the weatherservice
 
-At the weatherservice we´re also using [testcontainers](https://www.testcontainers.org/) to fully instanciate every microservice needed to test the whole interaction with RabbitMQ.
+At the weatherservice we´re also using [testcontainers](https://www.testcontainers.org/) to fully instanciate every microservice needed to test the whole interaction with RabbitMQ:
+
+![spring-rabbitmq-messaging-diagram](https://yuml.me/diagram/scruffy/class/[weatherservice]->[RabbitMQ],[weatherservice]^-.-[RabbitMQ],[RabbitMQ]->[weatherbackend],[RabbitMQ]^-.-[weatherbackend])
 
 Therefore the sequence of module build inside our [pom.xml](pom.xml) here is crucial:
 
