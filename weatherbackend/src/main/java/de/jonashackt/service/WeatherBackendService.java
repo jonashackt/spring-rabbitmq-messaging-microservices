@@ -19,6 +19,6 @@ public class WeatherBackendService {
     public @ResponseBody GeneralOutlook generateGeneralOutlook(@RequestBody Weather weather) throws JsonProcessingException {
 
         LOG.info("Called WeatherBackend with Json: " + new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(weather));
-        return IncredibleLogic.generateGeneralOutlook();
+        return IncredibleLogic.generateGeneralOutlookNeeds3Seconds();
     }
 }

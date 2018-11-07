@@ -29,14 +29,13 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WeatherServiceApplication.class)
-public class WeatherServiceApplicationTests {
+public class WeatherServiceSendAndReceiveTest {
 
     @ClassRule
     public static DockerComposeContainer services =
             new DockerComposeContainer(new File("../docker-compose.yml"))
                     .withExposedService("rabbitmq", 5672, Wait.forListeningPort())
-                    .withExposedService("weatherbackend", 8090, Wait.forListeningPort())
-                    .withTailChildContainers(true); // activate logging of weatherbackend to be available, see https://github.com/testcontainers/testcontainers-java/issues/352#issuecomment-310653094
+                    .withExposedService("weatherbackend", 8090, Wait.forListeningPort());
 
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
@@ -44,7 +43,6 @@ public class WeatherServiceApplicationTests {
     @Autowired
     private MessageSender messageSender;
 
-    @Ignore
     @Test
     public void is_EventGetOutlook_send_and_EventGeneralOutlook_received() throws JsonProcessingException, InterruptedException {
 
@@ -52,7 +50,7 @@ public class WeatherServiceApplicationTests {
         messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
 
         // Then
-        Thread.sleep(4000);
+        Thread.sleep(5000);
 
         assertThat(systemOutRule.getLog(), containsString("EventGeneralOutlook received in weatherservice."));
     }

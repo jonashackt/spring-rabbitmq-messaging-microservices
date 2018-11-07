@@ -7,7 +7,7 @@ import de.jonashackt.model.GeneralOutlook;
 
 public class IncredibleLogic {
 
-    public static GeneralOutlook generateGeneralOutlook() {
+    public static GeneralOutlook generateGeneralOutlookNeeds3Seconds() {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {

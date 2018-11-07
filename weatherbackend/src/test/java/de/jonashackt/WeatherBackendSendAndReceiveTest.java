@@ -1,14 +1,8 @@
 package de.jonashackt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import de.jonashackt.messaging.EventGetOutlook;
 import de.jonashackt.messaging.EventSimple;
 import de.jonashackt.messaging.MessageSender;
-import de.jonashackt.model.MethodOfPayment;
-import de.jonashackt.model.Product;
-import de.jonashackt.model.User;
-import de.jonashackt.model.Weather;
-import org.jetbrains.annotations.NotNull;
 import org.junit.ClassRule;
 
 import org.junit.Rule;
@@ -22,11 +16,8 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
-
-import java.io.File;
 
 import static de.jonashackt.common.ModelUtil.exampleEventGetOutlook;
 import static de.jonashackt.messaging.Queues.QUEUE_WEATHER_BACKEND;
@@ -36,8 +27,8 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = WeatherBackendApplication.class)
-@ContextConfiguration(initializers = {SendAndReceiveTest.Initializer.class})
-public class SendAndReceiveTest {
+@ContextConfiguration(initializers = {WeatherBackendSendAndReceiveTest.Initializer.class})
+public class WeatherBackendSendAndReceiveTest {
 
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
@@ -96,7 +87,7 @@ public class SendAndReceiveTest {
         messageSender.sendMessage(QUEUE_WEATHER_BACKEND, exampleEventGetOutlook());
 
         // Then
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         assertThat(systemOutRule.getLog(), containsString("EventGeneralOutlook received."));
     }

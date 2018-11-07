@@ -1,4 +1,4 @@
-# spring-rabbitmq-messaging
+spring-rabbitmq-messaging
 ======================================================================================
 [![Build Status](https://travis-ci.org/jonashackt/spring-rabbitmq-messaging.svg?branch=master)](https://travis-ci.org/jonashackt/spring-rabbitmq-messaging)
 
