@@ -1,6 +1,6 @@
-spring-rabbitmq-messaging
+spring-rabbitmq-messaging-microservices
 ======================================================================================
-[![Build Status](https://travis-ci.org/jonashackt/spring-rabbitmq-messaging.svg?branch=master)](https://travis-ci.org/jonashackt/spring-rabbitmq-messaging)
+[![Build Status](https://travis-ci.org/jonashackt/spring-rabbitmq-messaging-microservices.svg?branch=master)](https://travis-ci.org/jonashackt/spring-rabbitmq-messaging-microservices)
 
 Example project showing how to build a scalable microservice architecture using Spring Boot &amp; RabbitMQ
 
