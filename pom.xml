@@ -33,6 +33,7 @@
 		<!-- Dependencies all microservices share -->
 		<testcontainers.version>1.9.1</testcontainers.version>
 		<system-rules.version>1.18.0</system-rules.version>
+		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
 	</properties>
 
 	<dependencyManagement>
@@ -47,6 +48,12 @@
 				<groupId>com.github.stefanbirkner</groupId>
 				<artifactId>system-rules</artifactId>
 				<version>${system-rules.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.logstash.logback</groupId>
+				<artifactId>logstash-logback-encoder</artifactId>
+				<version>${logstash-logback-encoder.version}</version>
 			</dependency>
 		</dependencies>
 

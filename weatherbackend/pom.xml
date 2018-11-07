@@ -39,6 +39,12 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
+		<!-- Logging with ELK -->
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+		</dependency>
+
 		<!-- Testing -->
 		<dependency>
 			<groupId>org.testcontainers</groupId>

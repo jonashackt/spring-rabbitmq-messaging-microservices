@@ -2,21 +2,25 @@ version: '3.7'
 
 services:
 
- rabbitmq:
-  image: rabbitmq:management
-  ports:
-    - "5672:5672"
-    - "15672:15672"
-  tty:
-    true
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    tty:
+      true
 
- weatherbackend:
-  build: ./weatherbackend
-  ports:
-    - "8090"
-  environment:
-    - "SPRING.RABBITMQ.HOST=rabbitmq"
-  tty:
-    true
-  restart:
-    unless-stopped
+  weatherbackend:
+    build: ./weatherbackend
+    depends_on:
+    - rabbitmq
+    ports:
+      - "8090"
+    environment:
+      - "SPRING_RABBITMQ_HOST=rabbitmq"
+      - "LOGSTASH_HOST=host.docker.internal"
+    tty:
+      true
+    restart:
+      unless-stopped
+

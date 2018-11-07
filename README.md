@@ -171,6 +171,66 @@ public class WeatherServiceSendAndReceiveTest {
 }
 ```
 
+
+### Scale weatherbackend & observe, which retrieves the Events with Elastic stack
+
+To scale the weatherbackend Docker Containers, we can easily facilitate Docker Compose services scaling:
+
+```
+docker-compose up -d --scale weatherbackend=3
+```
+
+Now we have 3 weatherbackends, as the original architecture diagram suggests:
+
+![spring-rabbitmq-messaging-diagram](https://yuml.me/diagram/scruffy/class/[RabbitMQ]->[weatherbackend03],[RabbitMQ]^-.-[weatherbackend03],[RabbitMQ]->[weatherbackend02],[RabbitMQ]^-.-[weatherbackend02],[RabbitMQ]->[weatherbackend01],[RabbitMQ]^-.-[weatherbackend01])
+
+If we fire up our `weatherservice` now, we can send events that one of the weatherbackends will retrieve. But which is retrieving which event? We need to use log correlation like with the [Elastic stack](https://www.elastic.co/) for that. The easiest way to do so, is to use https://github.com/jonashackt/docker-elk. Just clone this repo and do another `docker-compose up -d`.
+
+To connect our microservices to the Elastic stack, there are multiple possibilties. An easy way is to use the [logstash-logback-encoder](https://github.com/logstash/logstash-logback-encoder) and configure it via a `logback-spring.xml` inside the `resources` directory in each app:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="org.springframework" level="WARN"/>
+	<logger name="de.jonashackt" level="DEBUG"/>
+
+    <!-- Logstash-Configuration -->
+	<!-- For details see https://github.com/logstash/logstash-logback-encoder -->
+	<appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<destination>localhost:5000</destination>
+		<!-- encoder is required -->
+	   <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+	   	<includeCallerData>true</includeCallerData>
+	   	<customFields>{"service_name":"weatherservice"}</customFields>
+	   	<fieldNames>
+	   		<message>log-msg</message>
+	   	</fieldNames>
+	   </encoder>
+	   <keepAliveDuration>5 minutes</keepAliveDuration>
+	</appender>
+	
+	<root level="INFO">
+	    <appender-ref ref="logstash" />
+	</root>
+	
+</configuration>
+```
+
+Now with everything in place, fire a request to `weatherservice` with ``.
+
+Open up Kibana after successful startup at http://localhost:5601/app/kibana and first create an index pattern after in __Management/Index Patterns__ called: `logstash-*`. Then click __Next step__ and choose `@timestamp` from the dropdown. Finally click __Create index pattern__. Then head over to __Discover__. Now fire up some events after starting `weatherservice`:
+
+```
+curl -v localhost:8095/event
+# or 100 events like this
+curl -v localhost:8095/events/100
+```
+
+Now we should see our services working:
+
+![events-in-kibana](screenshots/kibana-logs.png)
+
 ### Architects heaven: GitHub + Diagram + Markdown-Code
 
 Should be easy right?! I tried: https://yuml.me/diagram/scruffy/class/samples and there´s also a nice editor:
