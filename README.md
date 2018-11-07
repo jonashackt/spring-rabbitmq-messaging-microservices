@@ -4,6 +4,8 @@ spring-rabbitmq-messaging
 
 Example project showing how to build a scalable microservice architecture using Spring Boot &amp; RabbitMQ
 
+![spring-rabbitmq-messaging-diagram](https://yuml.me/diagram/scruffy/class/[weatherservice]->[RabbitMQ],[weatherservice]^-.-[RabbitMQ],[RabbitMQ]->[weatherbackend03],[RabbitMQ]^-.-[weatherbackend03],[RabbitMQ]->[weatherbackend02],[RabbitMQ]^-.-[weatherbackend02],[RabbitMQ]->[weatherbackend01],[RabbitMQ]^-.-[weatherbackend01])
+
 We´re using [RabbitMQ Docker image](https://hub.docker.com/_/rabbitmq/) here. So if you fire it up with `docker-compose up -d`, you can easily login to the management gui at http://localhost:15672 using `guest` & `guest` as credentials.
 
 ### Build sequence matters
@@ -109,3 +111,9 @@ services:
    restart:
      unless-stopped
 ```
+
+### Architects heaven: GitHub + Diagram + Markdown-Code
+
+Should be easy right?! I tried: https://yuml.me/diagram/scruffy/class/samples and there´s also a nice editor:
+
+[https://yuml.me/diagram/scruffy/class/edit/](https://yuml.me/diagram/scruffy/class/edit/[weatherservice]->[RabbitMQ],[weatherservice]^-.-[RabbitMQ],[RabbitMQ]->[weatherbackend03],[RabbitMQ]^-.-[weatherbackend03],[RabbitMQ]->[weatherbackend02],[RabbitMQ]^-.-[weatherbackend02],[RabbitMQ]->[weatherbackend01],[RabbitMQ]^-.-[weatherbackend01])
