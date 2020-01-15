@@ -231,6 +231,22 @@ Now we should see our services working:
 
 ![events-in-kibana](screenshots/kibana-logs.png)
 
+
+### Scale Containers automatically depending on workload
+
+Initialize local Swarm mode:
+
+```
+docker swarm init
+```
+
+Now deploy our application as Docker Stack
+
+```
+docker stack deploy --compose-file docker-stack.yml {{ application_stack_name }}
+```
+
+
 ### Architects heaven: GitHub + Diagram + Markdown-Code
 
 Should be easy right?! I tried: https://yuml.me/diagram/scruffy/class/samples and there´s also a nice editor:
