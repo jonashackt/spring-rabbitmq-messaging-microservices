@@ -13,7 +13,7 @@
     </parent>
 
     <properties>
-        <rest-assured.version>4.4.0</rest-assured.version>
+        <rest-assured.version>4.5.1</rest-assured.version>
         <springfox.version>3.0.0</springfox.version>
     </properties>
 
