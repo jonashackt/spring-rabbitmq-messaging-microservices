@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:19-jdk-alpine
 
 MAINTAINER Jonas Hecht
 
