@@ -15,7 +15,7 @@
 
 	<properties>
 		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-		<jackson-annotations.version>2.15.2</jackson-annotations.version>
+		<jackson-annotations.version>2.15.3</jackson-annotations.version>
 	</properties>
 
 	<dependencies>
