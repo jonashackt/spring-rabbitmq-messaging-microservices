@@ -31,7 +31,7 @@
 		<java.version>1.8</java.version>
 
 		<!-- Dependencies all microservices share -->
-		<testcontainers.version>1.19.2</testcontainers.version>
+		<testcontainers.version>1.19.3</testcontainers.version>
 		<system-rules.version>1.19.0</system-rules.version>
 		<logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
 	</properties>
