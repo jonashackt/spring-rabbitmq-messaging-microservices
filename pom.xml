@@ -33,7 +33,7 @@
 		<!-- Dependencies all microservices share -->
 		<testcontainers.version>1.21.3</testcontainers.version>
 		<system-rules.version>1.19.0</system-rules.version>
-		<logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
+		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
 	</properties>
 
 	<dependencyManagement>
