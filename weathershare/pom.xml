@@ -14,7 +14,7 @@
 	</parent>
 
 	<properties>
-		<maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+		<maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
 		<jackson-annotations.version>2.20</jackson-annotations.version>
 	</properties>
 
